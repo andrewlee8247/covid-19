@@ -1,0 +1,29 @@
+Computer Vision API for COVID-19 Classification
+Documentation:
+
+API takes image payload and returns a prediction classification and score.
+
+Accepted images: X-rays
+
+Valid File Types:
+JPG, PNG, GIF
+
+Response Classes:
+COVID-19
+NORMAL
+PNEUMONIA
+---
+consumes: multipart/form-data
+tags:
+    - predictions
+parameters:
+    -   in: formData
+        name: payload
+        type: file
+        description: The file to upload.
+        required: false
+    
+responses:
+    200:
+        description: Returns predicted class and score.
+ 

@@ -1,1 +1,2 @@
-## COVID-19 Prediction App 
+## Computer Vision Project
+
