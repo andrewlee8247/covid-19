@@ -14,7 +14,6 @@ def make_prediction(file_dir, filename):
 
     try:
         file_path = "{}{}".format(file_dir, filename)
-        upload.upload_image(file_dir, filename)
         prediction_client = automl.PredictionServiceClient()
 
         # Get the full path of the model.

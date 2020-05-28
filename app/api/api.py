@@ -6,7 +6,7 @@ from flasgger import Swagger
 from flasgger import swag_from
 from google.cloud import logging as cloudlogging
 import logging
-from lib import prediction
+from lib import upload, insert, prediction
 
 log_client = cloudlogging.Client()
 log_handler = log_client.get_default_handler()
@@ -15,6 +15,7 @@ cloud_logger.setLevel(logging.INFO)
 cloud_logger.addHandler(log_handler)
 
 UPLOAD_FOLDER = "/tmp"
+BUCKET_NAME = "xray-uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 app = Flask(__name__)
@@ -57,6 +58,21 @@ def allowed_file(filename):
 def prediction_payload():
     if request.method == "POST":
         try:
+            request_id = str(uuid.uuid4())
+            first_name = request.form.get("first_name", type=str)
+            last_name = request.form.get("last_name", type=str)
+            age = request.form.get("age", type=int)
+            email = request.form.get("email", type=str)
+            state = request.form.get("state", type=str)
+            zip_code = request.form.get("zip_code", type=int)
+            symptom_days = request.form.get("symptom_days", type=int)
+            trouble_breathing = request.form.get("trouble_breathing", type=int)
+            chest_pain = request.form.get("chest_pain", type=int)
+            tiredness = request.form.get("tiredness", type=int)
+            bluish_color = request.form.get("bluish_color", type=int)
+            runny_nose = request.form.get("runny_nose", type=int)
+            cough = request.form.get("cough", type=int)
+            fever = request.form.get("fever", type=int)
             # Check if the post request has the payload part
             if "payload" not in request.files:
                 raise Exception("Input name must be payload")
@@ -65,9 +81,29 @@ def prediction_payload():
             if file.filename == "":
                 raise Exception("No selected file")
             if file and allowed_file(file.filename):
-                request_id = str(uuid.uuid4())
                 filename = "{}_{}".format(request_id, secure_filename(file.filename))
                 file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                gcs_path = "gs://{}/{}".format(BUCKET_NAME, filename)
+                insert.insert_data(
+                    request_id,
+                    filename,
+                    gcs_path,
+                    first_name=first_name,
+                    last_name=last_name,
+                    age=age,
+                    email=email,
+                    state=state,
+                    zip_code=zip_code,
+                    symptom_days=symptom_days,
+                    trouble_breathing=trouble_breathing,
+                    chest_pain=chest_pain,
+                    tiredness=tiredness,
+                    bluish_color=bluish_color,
+                    runny_nose=runny_nose,
+                    cough=cough,
+                    fever=fever,
+                )
+                upload.upload_image("/tmp/", filename, BUCKET_NAME)
                 response = prediction.make_prediction("/tmp/", filename)
                 os.remove("/tmp/" + filename)
                 if list(response.keys())[0] == "error":

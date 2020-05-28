@@ -6,11 +6,10 @@ cloud_logger = logging.getLogger("cloudLogger")
 cloud_logger.setLevel(logging.INFO)
 
 
-def upload_image(file_dir, filename):
+def upload_image(file_dir, filename, bucket_name):
     # Uploads file to cloud storage and returns file path
     # Set variables
     project_id = "msds498-covid"
-    bucket_name = "xray-uploads"
 
     storage_client = storage.Client(project=project_id)
     bucket = storage_client.get_bucket(bucket_name)
@@ -25,5 +24,5 @@ def upload_image(file_dir, filename):
         return
 
     except Exception as e:
-        cloud_logger.error(e)
+        raise Exception(e)
         return
