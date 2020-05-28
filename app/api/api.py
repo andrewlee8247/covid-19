@@ -1,12 +1,14 @@
 import os
 import uuid
+import jwt
+from functools import wraps
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from flasgger import Swagger
 from flasgger import swag_from
 from google.cloud import logging as cloudlogging
 import logging
-from lib import upload, insert, prediction
+from lib import upload, insert, prediction, secrets
 
 log_client = cloudlogging.Client()
 log_handler = log_client.get_default_handler()
@@ -49,15 +51,38 @@ template = {
 Swagger(app, template=template)
 
 
+def token_required(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        token = secrets.access_token
+        # Check if token is in headers
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        if not token:
+            cloud_logger.error('A valid token is missing')
+            return jsonify({'error': 'A valid token is missing'})
+        # Check if token is valid
+        try:
+            access = jwt.decode(token, "secret", algorithm='HS256')
+        except Exception:
+            cloud_logger.error('Token is invalid')
+            return jsonify({'error': 'Token is invalid'})
+
+        return f(access, *args, **kwargs)
+    return decorator
+
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/api/prediction", methods=["POST"])
+@token_required
 @swag_from("apidocs.yml")
-def prediction_payload():
+def prediction_payload(access):
     if request.method == "POST":
         try:
+            # Request data to insert to database
             request_id = str(uuid.uuid4())
             first_name = request.form.get("first_name", type=str)
             last_name = request.form.get("last_name", type=str)
@@ -73,6 +98,7 @@ def prediction_payload():
             runny_nose = request.form.get("runny_nose", type=int)
             cough = request.form.get("cough", type=int)
             fever = request.form.get("fever", type=int)
+            # Insert data to database, upload image to storage, and make prediction
             # Check if the post request has the payload part
             if "payload" not in request.files:
                 raise Exception("Input name must be payload")
@@ -84,6 +110,7 @@ def prediction_payload():
                 filename = "{}_{}".format(request_id, secure_filename(file.filename))
                 file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
                 gcs_path = "gs://{}/{}".format(BUCKET_NAME, filename)
+                # Insert data to database
                 insert.insert_data(
                     request_id,
                     filename,
@@ -103,7 +130,9 @@ def prediction_payload():
                     cough=cough,
                     fever=fever,
                 )
+                # Upload image to cloud storage
                 upload.upload_image("/tmp/", filename, BUCKET_NAME)
+                # Submit prediction payload
                 response = prediction.make_prediction("/tmp/", filename)
                 os.remove("/tmp/" + filename)
                 if list(response.keys())[0] == "error":
@@ -114,7 +143,7 @@ def prediction_payload():
             else:
                 raise Exception("File extension not allowed")
         except Exception as e:
-            cloud_logger.error({"error": "{}".format(e)})
+            cloud_logger.error(e)
             error = {"error": "{}".format(e)}
             return jsonify(error)
 

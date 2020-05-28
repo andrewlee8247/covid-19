@@ -1,6 +1,5 @@
 import logging
 from google.cloud import automl
-from lib import upload
 
 cloud_logger = logging.getLogger("cloudLogger")
 cloud_logger.setLevel(logging.INFO)

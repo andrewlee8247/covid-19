@@ -7,6 +7,7 @@ pandas
 nbval
 click
 flask
+pyjwt
 waitress
 requests
 google-cloud-storage

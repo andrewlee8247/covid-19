@@ -17,6 +17,11 @@ consumes: multipart/form-data
 tags:
     - predictions
 parameters:
+    -   in : header
+        name: x-access-token
+        type: string
+        description: Requires API token
+        required: True
     -   in: formData
         name: payload
         type: file
