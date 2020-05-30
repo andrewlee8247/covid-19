@@ -23,11 +23,6 @@ parameters:
         description: Requires API token
         required: True
     -   in: formData
-        name: payload
-        type: file
-        description: The file to upload.
-        required: true
-    -   in: formData
         name: first_name
         type: string
         description: First name
@@ -97,6 +92,11 @@ parameters:
         type: integer
         description: Fever (0 for No, 1 for Yes)
         required: false
+    -   in: formData
+        name: payload
+        type: file
+        description: The file to upload.
+        required: true
 responses:
     200:
         description: Returns predicted class and score.

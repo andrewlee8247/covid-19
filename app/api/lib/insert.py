@@ -103,7 +103,7 @@ def insert_data(
         error = client.insert_rows(table, row_to_insert)
 
         if not error:
-            cloud_logger.info("Job is done.")
+            cloud_logger.info("Insert job is done.")
         else:
             raise Exception(error)
         return
