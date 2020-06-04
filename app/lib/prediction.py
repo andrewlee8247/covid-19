@@ -5,14 +5,13 @@ cloud_logger = logging.getLogger("cloudLogger")
 cloud_logger.setLevel(logging.INFO)
 
 
-def make_prediction(file_dir, filename):
+def make_prediction(file_path):
     # Makes single prediction from AutoML
     # Set variables
     project_id = "msds498-covid"
-    model_id = "COVID19_v1"
+    model_id = "ICN8802844023602544640"
 
     try:
-        file_path = "{}{}".format(file_dir, filename)
         prediction_client = automl.PredictionServiceClient()
 
         # Get the full path of the model.
@@ -46,6 +45,6 @@ def make_prediction(file_dir, filename):
         )
         return prediction
 
-    except Exception as e:
-        raise Exception(e)
+    except Exception:
+        raise Exception("Processing error. Please try again.")
         return

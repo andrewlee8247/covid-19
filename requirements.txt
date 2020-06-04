@@ -18,5 +18,3 @@ bs4
 flasgger
 google-api-python-client
 locust
-dash
-dash-bootstrap-components

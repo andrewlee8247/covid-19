@@ -2,7 +2,8 @@ import os
 import uuid
 import jwt
 from functools import wraps
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, flash, redirect
+import requests
 from werkzeug.utils import secure_filename
 from flasgger import Swagger
 from flasgger import swag_from
@@ -23,6 +24,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.secret_key = secrets.secret_key()
 app.config["SWAGGER"] = {
     "specs": [
         {
@@ -56,24 +58,65 @@ def token_required(f):
     def decorator(*args, **kwargs):
         token = secrets.access_token
         # Check if token is in headers
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
+        if "x-access-token" in request.headers:
+            token = request.headers["x-access-token"]
         if not token:
-            cloud_logger.error('A valid token is missing')
-            return jsonify({'error': 'A valid token is missing'})
+            cloud_logger.error("A valid token is missing")
+            return jsonify({"error": "A valid token is missing"})
         # Check if token is valid
         try:
-            access = jwt.decode(token, "secret", algorithm='HS256')
+            access = jwt.decode(token, "secret", algorithm="HS256")
         except Exception:
-            cloud_logger.error('Token is invalid')
-            return jsonify({'error': 'Token is invalid'})
+            cloud_logger.error("Token is invalid")
+            return jsonify({"error": "Token is invalid"})
 
         return f(access, *args, **kwargs)
+
     return decorator
 
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/", methods=["GET", "POST"])
+def form():
+    token = secrets.access_token()
+    auth_header = {"x-access-token": "{}".format(token)}
+    if request.method == "POST":
+        try:
+            data = request.form
+            file = request.files["payload"]
+            if file.filename == "":
+                raise Exception("Please submit a file.")
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(file_path)
+            get_response = requests.post(
+                "https://covid-3ghvym5f7q-uc.a.run.app/api/prediction",
+                files={
+                    "payload": (filename, open(file_path, "rb"), "multipart/form-data")
+                },
+                data=data,
+                headers=auth_header,
+            )
+            os.remove(file_path)
+            response = get_response.json()
+            if list(response.keys())[0] == "error":
+                raise Exception((response["error"]))
+            else:
+                cloud_logger.info(response)
+                flash(
+                    "Prediction is {} with a chance of {}".format(
+                        response["predicted_class"], response["predicted_class_score"]
+                    )
+                )
+            return redirect("/#form")
+        except Exception as e:
+            cloud_logger.error(e)
+            flash(str(e))
+            return redirect("/#form")
+    return render_template("form.html")
 
 
 @app.route("/api/prediction", methods=["POST"])
@@ -108,10 +151,11 @@ def prediction_payload(access):
                 raise Exception("No selected file")
             if file and allowed_file(file.filename):
                 filename = "{}_{}".format(request_id, secure_filename(file.filename))
-                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+                file.save(file_path)
                 gcs_path = "gs://{}/{}".format(BUCKET_NAME, filename)
                 # Submit prediction payload
-                response = prediction.make_prediction("/tmp/", filename)
+                response = prediction.make_prediction(file_path)
                 # Insert data to database
                 insert.insert_data(
                     request_id,
@@ -133,8 +177,8 @@ def prediction_payload(access):
                     fever=fever,
                 )
                 # Upload image to cloud storage
-                upload.upload_image("/tmp/", filename, BUCKET_NAME)
-                os.remove("/tmp/" + filename)
+                upload.upload_image(file_path, filename, BUCKET_NAME)
+                os.remove(file_path)
                 if list(response.keys())[0] == "error":
                     raise Exception(response)
                 else:

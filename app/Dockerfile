@@ -1,10 +1,10 @@
 FROM python:3.7.3-stretch
 
 # Working Directory
-WORKDIR /api
+WORKDIR /app
 
 # Copy source code to working directory
-COPY . api.py /api/
+COPY . app.py /app/
 
 # Install packages from requirements.txt
 RUN pip3 install -r requirements.txt
@@ -13,4 +13,4 @@ RUN pip3 install -r requirements.txt
 EXPOSE 80
 
 # Run api.py at container launch
-CMD ["python", "api.py"]
+CMD ["python", "app.py"]

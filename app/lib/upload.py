@@ -6,7 +6,7 @@ cloud_logger = logging.getLogger("cloudLogger")
 cloud_logger.setLevel(logging.INFO)
 
 
-def upload_image(file_dir, filename, bucket_name):
+def upload_image(file_path, filename, bucket_name):
     # Uploads file to cloud storage and returns file path
     # Set variables
     project_id = "msds498-covid"
@@ -17,7 +17,7 @@ def upload_image(file_dir, filename, bucket_name):
     try:
         # Upload file
         blob = Blob(filename, bucket)
-        with open("{}{}".format(file_dir, filename), "rb") as file_content:
+        with open(file_path, "rb") as file_content:
             blob.upload_from_file(file_content)
         gcs_path = "gs://{}/{}".format(bucket_name, filename)
         cloud_logger.info("File uploaded successfully to %s", gcs_path)
