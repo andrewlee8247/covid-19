@@ -1,0 +1,10 @@
+flask
+requests
+grpcio
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-automl
+google-cloud-logging
+pyjwt
+flasgger
+waitress

@@ -110,6 +110,8 @@ def prediction_payload(access):
                 filename = "{}_{}".format(request_id, secure_filename(file.filename))
                 file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
                 gcs_path = "gs://{}/{}".format(BUCKET_NAME, filename)
+                # Submit prediction payload
+                response = prediction.make_prediction("/tmp/", filename)
                 # Insert data to database
                 insert.insert_data(
                     request_id,
@@ -132,8 +134,6 @@ def prediction_payload(access):
                 )
                 # Upload image to cloud storage
                 upload.upload_image("/tmp/", filename, BUCKET_NAME)
-                # Submit prediction payload
-                response = prediction.make_prediction("/tmp/", filename)
                 os.remove("/tmp/" + filename)
                 if list(response.keys())[0] == "error":
                     raise Exception(response)
@@ -151,4 +151,4 @@ def prediction_payload(access):
 if __name__ == "__main__":
     from waitress import serve
 
-    serve(app, host="0.0.0.0", port="8080")
+    serve(app, host="0.0.0.0", port="80")

@@ -9,7 +9,7 @@ def make_prediction(file_dir, filename):
     # Makes single prediction from AutoML
     # Set variables
     project_id = "msds498-covid"
-    model_id = "covid-model-v.1"
+    model_id = "COVID19_v1"
 
     try:
         file_path = "{}{}".format(file_dir, filename)
