@@ -107,8 +107,8 @@ def form():
             else:
                 cloud_logger.info(response)
                 flash(
-                    "Prediction is {} with a chance of {}".format(
-                        response["predicted_class"], response["predicted_class_score"]
+                    "Prediction is {} with a probability of {}%".format(
+                        response["predicted_class"], round(response["score"] * 100, 3)
                     )
                 )
             return redirect("/#form")

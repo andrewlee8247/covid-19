@@ -116,8 +116,8 @@
                             <div class="form-group">
                                 <legend>Please upload your X-Ray</legend>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="payload" id="payload" aria-describedby="payloadHelp">
-                                    <small id="payloadHelp" class="form-text text-muted">Accepted formats: JPG, JPEG, PNG, GIF</small>
+                                    <input type="file" class="custom-file-input" name="payload" id="payload" aria-describedby="payloadHelp"/>
+                                    <large id="payloadHelp" class="form-text text-muted">Accepted formats: JPG, JPEG, PNG, GIF</large>
                                     <label class="custom-file-label" for="payload">Choose file</label>
                                 </div>
                             </div>
@@ -151,6 +151,13 @@
                     </script>
                 {% endif %}
             </div>
+            <script>
+                document.querySelector('.custom-file-input').addEventListener('change',function(e){
+                    var fileName = document.getElementById("payload").files[0].name;
+                    var nextSibling = e.target.nextElementSibling
+                    nextSibling.innerText = fileName
+                })
+            </script>
         </div>
     </div>
 </div>
