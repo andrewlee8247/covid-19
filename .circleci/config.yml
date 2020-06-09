@@ -5,7 +5,7 @@
 version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.6.1
-  gcp-cloud-run: circleci/gcp-cloud-run@1.0.2
+  cloud-run: circleci/gcp-cloud-run@1.0.2
   gcr: circleci/gcp-gcr@0.7.1
 jobs:
   build_test:
@@ -68,18 +68,6 @@ jobs:
           region: us-central1
           service-name: covid
           unauthenticated: true
-      - run:
-          name: Test managed deployed service
-          command: >
-            GCP_API_RESULTS=$(curl -s "$GCP_DEPLOY_ENDPOINT")
-            
-            if ["$GCP_API_RESULTS" != "<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"> <title>405 Method Not Allowed</title> && \
-            <h1>Method Not Allowed</h1> <p>The method is not allowed for the requested URL.</p>"]; then
-                echo "Result is unexpected"
-                echo 'Result: '
-                curl -s "$GCP_DEPLOY_ENDPOINT"
-                exit 1;
-            fi 
   # Load test deployment
   load-test:
     description: Run load test.
@@ -112,7 +100,6 @@ workflows:
             branches:
               only:
                 - master
-                - development
       - build_push_image_docker_app:
           requires:
             - build_test
