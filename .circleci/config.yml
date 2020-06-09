@@ -188,6 +188,7 @@ workflows:
           filters:
             branches:
               only:
+                - master
                 - development
       - build_push_image_docker_auto_ml:
           requires:
