@@ -39,7 +39,9 @@ jobs:
       - run: 
           name: Copy secrets file
           command: |
-            echo $SECRETS > ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "     token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "     return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
       # Run tests
       - run:
           name: Run Tests
