@@ -39,12 +39,12 @@ jobs:
       - run: 
           name: Copy secrets file
           command: |
-            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
       # Run tests
       - run:
           name: Run Tests
@@ -68,12 +68,12 @@ jobs:
       - run: 
           name: Copy secrets file
           command: |
-            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
       - gcr/gcr-auth
       - gcr/build-image:
           image: covid-app
@@ -91,12 +91,12 @@ jobs:
       - run: 
           name: Copy secrets file
           command: |
-            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
       - gcr/gcr-auth
       - gcr/build-image:
           image: covid-app-keras
@@ -151,12 +151,12 @@ jobs:
       - run: 
           name: Copy secrets file
           command: |
-            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
-            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
       # Run load test
       - run:
           name: Run Load Test AutoML App
@@ -179,7 +179,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - development
       - build_push_image_docker_auto_ml:
           requires:
