@@ -30,61 +30,6 @@ jobs:
           name: Run Lint
           command: |
             make lint
-  # Build and Push Docker Images to GCR
-  build-push-image-docker-app:
-    description: Build and push app image to GCR
-    machine: true
-    working_directory: ~/computer-vision-covid-19
-    steps:
-      - checkout
-      - run: 
-          name: Copy secrets file
-          commnd: |
-            echo $SECRETS > ~/computer-vision-covid-19/app/lib/secrets.py
-      - gcr/gcr-auth
-      - gcr/build-image:
-          image: covid-app
-          path: ~/computer-vision-covid-19
-          tag: "v.1.1" # Change version number when updating 
-      - gcr/push-image:
-          image: covid-app
-          tag: "v.1.1" # Change version number when updating
-  # Deploy containers to GKE
-  build_and_deploy:
-    description: Deploy app
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - cloudrun/init
-      - cloudrun/deploy:
-          image: gcr.io/$GOOGLE_PROJECT_ID/covid-app:v.1.1
-          platform: managed
-          region: us-central1
-          service-name: covid
-          unauthenticated: true
-  # Load test deployment
-  load-test:
-    description: Run load test.
-    docker:
-      - image: python:3.7.3-stretch
-    working_directory: ~/computer-vision-covid-19
-    steps:
-      - checkout
-      # Install Dependencies
-      - run:
-          name: Install Dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip3 install locust
-      # Run load test
-      - run:
-          name: Run Load Test
-          command: |
-            . venv/bin/activate
-            sleep 2m
-            locust --host=https://covid-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --no-web -c 5 -r 1 -t 1m  --print-stats
 workflows:
   version: 2.0
   test_build_deploy:
@@ -94,24 +39,4 @@ workflows:
             branches:
               only:
                 - master
-      - build-push-image-docker-app:
-          requires:
-            - build_test
-          filters:
-            branches:
-              only:
-                - development
-      - build_and_deploy:
-          requires:
-            - build-push-image-docker-app
-          filters:
-            branches:
-              only:
-                - development
-      - load-test:
-          requires:
-            - build_and_deploy
-          filters:
-            branches:
-              only:
-                - development
+ 
