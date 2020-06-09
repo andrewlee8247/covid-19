@@ -119,6 +119,7 @@ jobs:
             sleep 2m
             locust --host=https://covid-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --no-web -c 5 -r 1 -t 1m  --print-stats
 workflows:
+  version: 2
   test_build_deploy:
     jobs:
       - build_test:
