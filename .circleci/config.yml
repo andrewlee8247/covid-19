@@ -30,4 +30,12 @@ jobs:
           name: Run Lint
           command: |
             make lint
+workflows:
+  test_build_deploy:
+    jobs:
+      - build_test:
+          filters:
+            branches:
+              only:
+                - master
  
