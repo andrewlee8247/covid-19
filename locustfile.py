@@ -1,4 +1,4 @@
-from locust import HttpLocust, TaskSet, task, between
+from locust import HttpUser, TaskSet, task, between
 from app.lib import secrets
 
 token = secrets.access_token()
@@ -37,6 +37,6 @@ class UserBehavior(TaskSet):
         )
 
 
-class WebsiteUser(HttpLocust):
-    task_set = UserBehavior
+class WebsiteUser(HttpUser):
+    tasks = [UserBehavior]
     wait_time = between(5.0, 9.0)
