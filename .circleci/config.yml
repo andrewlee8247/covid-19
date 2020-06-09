@@ -61,7 +61,7 @@ jobs:
           name: Update App Deployment
           command: |
             echo 'Updating App Deployment'
-      - cloudrun/init
+      #- cloudrun/init
       - cloudrun/deploy:
           image: 
           platform: managed
