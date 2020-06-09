@@ -4,7 +4,8 @@
 #
 version: 2.1
 orbs:
-  cloud-run: circleci/gcp-cloud-run@1.0.2
+  node: circleci/node@1.0.1
+  cloud-run: circleci/gcp-cloud-run@dev:alpha
   gcr: circleci/gcp-gcr@0.7.1
 jobs:
   build_test:
