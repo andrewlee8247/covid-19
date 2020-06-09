@@ -37,7 +37,7 @@ jobs:
             - ./venv
           key: v2-dependencies-{{ checksum "requirements.txt" }}
       - run: 
-          name: Copy secrets file
+          name: Copy secrets file AutoML
           command: |
             echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
             echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
@@ -45,6 +45,15 @@ jobs:
             echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
             echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
             echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+      - run: 
+          name: Copy secrets file Keras
+          command: |
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
       # Run tests
       - run:
           name: Run Tests
@@ -66,7 +75,7 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: Copy secrets file
+          name: Copy secrets file AutoML
           command: |
             echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
             echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
@@ -89,14 +98,15 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: Copy secrets file
+      - run: 
+          name: Copy secrets file Keras
           command: |
-            echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
-            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
-            echo "    return token" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
-            echo "def secret_key():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
-            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
-            echo "    return key" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
+            echo "def access_token():" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
       - gcr/gcr-auth
       - gcr/build-image:
           image: covid-app-keras
@@ -149,7 +159,7 @@ jobs:
             . venv/bin/activate
             pip3 install locust
       - run: 
-          name: Copy secrets file
+          name: Copy secrets file AutoML
           command: |
             echo "def access_token():" >> ~/computer-vision-covid-19/app-automl/lib/secrets.py
             echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app-automl/lib/secrets.py

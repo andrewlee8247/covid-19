@@ -1,5 +1,8 @@
+import sys
 from locust import HttpUser, TaskSet, task, between
-from app.lib import secrets
+
+sys.path.append("./app-automl")
+from lib import secrets
 
 token = secrets.access_token()
 
