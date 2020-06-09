@@ -111,6 +111,15 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip3 install locust
+      - run: 
+          name: Copy secrets file
+          command: |
+            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
       # Run load test
       - run:
           name: Run Load Test
@@ -126,7 +135,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - development
       - build_push_image_docker_auto_ml:
           requires:
