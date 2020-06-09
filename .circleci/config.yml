@@ -179,7 +179,7 @@ jobs:
           command: |
             . venv/bin/activate
             locust --host=https://covid-keras-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --headless \
-            -u 5 -r 1 -t 1m  --print-stats
+            -u 1 -r 1 -t 20s  --print-stats
 workflows:
   version: 2
   test_build_deploy:
