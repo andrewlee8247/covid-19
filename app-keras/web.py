@@ -93,7 +93,7 @@ def form():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
             get_response = requests.post(
-                "https://covid-3ghvym5f7q-uc.a.run.app/api/prediction",
+                "https://covid-keras-3ghvym5f7q-uc.a.run.app/api/prediction",
                 files={
                     "payload": (filename, open(file_path, "rb"), "multipart/form-data")
                 },
@@ -108,7 +108,7 @@ def form():
                 cloud_logger.info(response)
                 flash(
                     "Prediction is {} with a probability of {}%".format(
-                        response["predicted_class"], round(response["score"] * 100, 3)
+                        response["predicted_class"], round(int(response["score"]) * 100, 3)
                     )
                 )
             return redirect("/#form")
