@@ -53,12 +53,12 @@ jobs:
   build_and_deploy:
     description: Deploy app
     docker:
-      - image: circleci/python:3.7.4
+      - image: cimg/base:stable
     steps:
       - checkout
-      #- cloudrun/init
+      - cloudrun/init
       - cloudrun/deploy:
-          image: 
+          image: gcr.io/$GOOGLE_PROJECT_ID/covid-app:v.1.1
           platform: managed
           region: us-central1
           service-name: covid
