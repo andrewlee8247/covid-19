@@ -82,7 +82,7 @@ def allowed_file(filename):
 @app.route("/", methods=["GET", "POST"])
 def form():
     token = secrets.access_token()
-    auth_header = {"x-access-token": "{}".format(token)}
+    auth_header = {"x-access-token": token}
     if request.method == "POST":
         try:
             data = request.form

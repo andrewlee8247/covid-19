@@ -12,5 +12,5 @@ RUN pip3 install -r requirements.txt
 # Expose port 80
 EXPOSE 80
 
-# Run api.py at container launch
-CMD ["python", "app.py"]
+# Run web.py at container launch
+CMD ["python", "web.py"]
