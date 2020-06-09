@@ -58,6 +58,66 @@ jobs:
           command: |
             . venv/bin/activate
             make lint
+  # Build and Push Docker Images to GCR
+  build_push_image_docker_auto_ml:
+    description: Build and push app image to GCR
+    machine: true
+    working_directory: ~/computer-vision-covid-19
+    steps:
+      - checkout
+      - run: 
+          name: Copy secrets file
+          command: |
+            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+      - gcr/gcr-auth
+      - gcr/build-image:
+          image: covid-app
+          path: ~/computer-vision-covid-19
+          tag: "v.1.1" # Change version number when updating 
+      - gcr/push-image:
+          image: covid-app
+          tag: "v.1.1" # Change version number when updating
+  # Deploy containers to GKE
+  build_and_deploy:
+    description: Deploy app
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - cloudrun/init
+      - cloudrun/deploy:
+          image: gcr.io/$GOOGLE_PROJECT_ID/covid-app:v.1.1 # Change version number when updating 
+          platform: managed
+          region: us-central1
+          service-name: covid
+          unauthenticated: true
+  # Load test deployment
+  load-test:
+    description: Run load test.
+    docker:
+      - image: python:3.7.3-stretch
+    working_directory: ~/computer-vision-covid-19
+    steps:
+      - checkout
+      # Install Dependencies
+      - run:
+          name: Install Dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip3 install locust
+      # Run load test
+      - run:
+          name: Run Load Test
+          command: |
+            . venv/bin/activate
+            sleep 2m
+            locust --host=https://covid-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --no-web -c 5 -r 1 -t 1m  --print-stats
 workflows:
   test_build_deploy:
     jobs:
@@ -66,4 +126,24 @@ workflows:
             branches:
               only:
                 - master
- 
+      - build_push_image_docker_auto_ml:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - development
+      - build_and_deploy:
+          requires:
+            - build_push_image_docker_auto_ml
+          filters:
+            branches:
+              only:
+                - development
+      - load-test:
+          requires:
+            - build_and_deploy
+          filters:
+            branches:
+              only:
+                - development
