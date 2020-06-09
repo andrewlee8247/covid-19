@@ -36,6 +36,10 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+      - run: 
+          name: Copy secrets file
+          commnd: |
+            echo $SECRETS > ~/computer-vision-covid-19/app/lib/secrets.py
       # Run tests
       - run:
           name: Run Tests

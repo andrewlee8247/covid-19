@@ -14,7 +14,7 @@ google-cloud-storage
 google-cloud-bigquery
 google-cloud-logging
 google-cloud-automl
-bs4
+grpcio
 flasgger
 google-api-python-client
 locust
