@@ -7,7 +7,7 @@ orbs:
   cloudrun: circleci/gcp-cloud-run@1.0.2
   gcr: circleci/gcp-gcr@0.7.1
 jobs:
-  test:
+  build_test:
     docker:
       - image: circleci/python:3.7.4
     working_directory: ~/computer-vision-covid-19
@@ -31,7 +31,7 @@ jobs:
           command: |
             make lint
   # Build and Push Docker Images to GCR
-  build_push_image_docker_app:
+  build-push-image-docker-app:
     description: Build and push app image to GCR
     machine: true
     working_directory: ~/computer-vision-covid-19
@@ -50,7 +50,7 @@ jobs:
           image: covid-app
           tag: "v.1.1" # Change version number when updating
   # Deploy containers to GKE
-  deploy:
+  build_and_deploy:
     description: Deploy app
     docker:
       - image: cimg/base:stable
@@ -89,19 +89,19 @@ workflows:
   version: 2.0
   test_build_deploy:
     jobs:
-      - test:
+      - build_test:
           filters:
             branches:
               only:
                 - master
       - build_push_image_docker_app:
           requires:
-            - test
+            - build_test
           filters:
             branches:
               only:
                 - development
-      - deploy:
+      - build_and_deploy:
           requires:
             - build_push_image_docker_app
           filters:
@@ -110,7 +110,7 @@ workflows:
                 - development
       - load-test:
           requires:
-            - deploy
+            - build_and_deploy
           filters:
             branches:
               only:
