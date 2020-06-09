@@ -25,15 +25,15 @@ def make_prediction(file_dir, filename):
             x_col="filename",
             y_col=None,
             target_size=(224, 224),
-            color_mode='rgb',
+            color_mode="rgb",
             shuffle=False,
             class_mode=None,
             batch_size=1,
-            validate_filenames=False
+            validate_filenames=False,
         )
 
         # Run prediction
-        predict = model.predict_generator(data_generator, 1//1)
+        predict = model.predict_generator(data_generator, 1 // 1)
 
         # Get classification and score
         classification = np.argmax(predict, axis=1)
@@ -51,7 +51,7 @@ def make_prediction(file_dir, filename):
         }
         cloud_logger.info(
             "results: %s",
-            {"predicted_class": predicted_class, "score": predicted_class_score}
+            {"predicted_class": predicted_class, "score": predicted_class_score},
         )
         return prediction
 

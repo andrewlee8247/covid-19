@@ -77,10 +77,33 @@ jobs:
       - gcr/gcr-auth
       - gcr/build-image:
           image: covid-app
-          path: ~/computer-vision-covid-19/app
+          path: ~/computer-vision-covid-19/app-automl
           tag: "v.1.1" # Change version number when updating 
       - gcr/push-image:
           image: covid-app
+          tag: "v.1.1" # Change version number when updating
+  build_push_image_docker_keras:
+    description: Build and push app image to GCR
+    machine: true
+    working_directory: ~/computer-vision-covid-19
+    steps:
+      - checkout
+      - run: 
+          name: Copy secrets file
+          command: |
+            echo "def access_token():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    token=" $ACCESS_TOKEN >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return token" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "def secret_key():" >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    key=" $SECRET_KEY >> ~/computer-vision-covid-19/app/lib/secrets.py
+            echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
+      - gcr/gcr-auth
+      - gcr/build-image:
+          image: covid-app-keras
+          path: ~/computer-vision-covid-19/app-keras
+          tag: "v.1.1" # Change version number when updating 
+      - gcr/push-image:
+          image: covid-app-keras
           tag: "v.1.1" # Change version number when updating
   # Deploy containers to GKE
   build_and_deploy:
@@ -90,11 +113,25 @@ jobs:
     steps:
       - checkout
       - cloudrun/init
+      - run:
+          name: Update AutoML App Deployment
+          command: |
+            echo 'Updating AutoML App Deployment'
       - cloudrun/deploy:
           image: gcr.io/$GOOGLE_PROJECT_ID/covid-app:v.1.1 # Change version number when updating 
           platform: managed
           region: us-central1
           service-name: covid
+          unauthenticated: true
+      - run:
+          name: Update Keras App Deployment
+          command: |
+            echo 'Updating Keras App Deployment'
+      - cloudrun/deploy:
+          image: gcr.io/$GOOGLE_PROJECT_ID/covid-app-keras:v.1.1 # Change version number when updating 
+          platform: managed
+          region: us-central1
+          service-name: covid-keras
           unauthenticated: true
   # Load test deployment
   load-test:
@@ -122,11 +159,17 @@ jobs:
             echo "    return key" >> ~/computer-vision-covid-19/app/lib/secrets.py
       # Run load test
       - run:
-          name: Run Load Test
+          name: Run Load Test AutoML App
           command: |
             . venv/bin/activate
             sleep 1m
             locust --host=https://covid-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --headless \
+            -u 5 -r 1 -t 1m  --print-stats
+      - run:
+          name: Run Load Test Keras App
+          command: |
+            . venv/bin/activate
+            locust --host=https://covid-keras-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --headless \
             -u 5 -r 1 -t 1m  --print-stats
 workflows:
   version: 2
@@ -136,6 +179,7 @@ workflows:
           filters:
             branches:
               only:
+                - master
                 - development
       - build_push_image_docker_auto_ml:
           requires:
@@ -144,9 +188,16 @@ workflows:
             branches:
               only:
                 - development
+      - build_push_image_docker_keras:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - development
       - build_and_deploy:
           requires:
-            - build_push_image_docker_auto_ml
+            - build_push_image_docker_keras
           filters:
             branches:
               only:

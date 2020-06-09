@@ -124,13 +124,21 @@
                         </div>
                     </div>
                     <br></br>
-                    <div class="form-group row" style= "width: 100%; display: flex; align-items: center; justify-content: center;">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="form-group row" style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <button type="submit" class="btn btn-primary btn lg" style="width:20%" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i>Processing">Submit</button>
                         </div>
-                    </div>
+                    </div> 
                 </fieldset>
             </form>
+            <script>
+                $('.btn').on('click', function() {
+                        var $this = $(this);
+                    $this.button('loading');
+                        setTimeout(function() {
+                            $this.button('reset');
+                        }, 8000);
+                });
+            </script>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <ul class=flashes>

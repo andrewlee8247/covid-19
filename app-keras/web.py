@@ -108,13 +108,17 @@ def form():
                 cloud_logger.info(response)
                 flash(
                     "Prediction is {} with a probability of {}%".format(
-                        response["predicted_class"], round(int(response["score"]) * 100, 3)
+                        response["predicted_class"],
+                        round(float(response["score"]) * 100, 3)
                     )
                 )
             return redirect("/#form")
         except Exception as e:
             cloud_logger.error(e)
-            flash(str(e))
+            if str(e).split(' ')[0] == "Expecting":
+                flash("Processing error. Please try again.")
+            else:
+                flash(str(e))
             return redirect("/#form")
     return render_template("form.html")
 
