@@ -98,7 +98,6 @@ jobs:
     steps:
       - checkout
       - run: 
-      - run: 
           name: Copy secrets file Keras
           command: |
             echo "def access_token():" >> ~/computer-vision-covid-19/app-keras/lib/secrets.py
