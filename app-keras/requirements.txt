@@ -1,0 +1,13 @@
+flask
+requests
+grpcio
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-automl
+google-cloud-logging
+tensorflow==2.0.0
+keras
+Pillow
+pyjwt
+flasgger
+waitress

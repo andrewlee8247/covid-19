@@ -1,7 +1,7 @@
 import sys
 import logging
 
-sys.path.append("./app")
+sys.path.append("./app-automl")
 from lib import prediction, upload, insert
 
 request_id = "test"

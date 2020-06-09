@@ -3,8 +3,8 @@ import os
 from werkzeug.datastructures import FileStorage
 from werkzeug.test import EnvironBuilder, run_wsgi_app
 
-sys.path.append("./app")
-from app.web import app
+sys.path.append("./app-automl")
+from web import app
 from lib import secrets
 
 

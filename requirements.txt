@@ -15,6 +15,9 @@ google-cloud-bigquery
 google-cloud-logging
 google-cloud-automl
 grpcio
+tensorflow==2.0.0
+keras
+Pillow
 flasgger
 google-api-python-client
 locust

@@ -2,13 +2,20 @@ setup:
 	python3 -m venv ~/.ccdr
 
 install:
-	pip3 install -r requirements.txt --user
+	pip3 install -r requirements.txt
 
 test:
-	python -m pytest -vv --cov=app/lib tests/**.py
+	python -m pytest -vv --cov=app-automl/lib tests/**.py && \
+    python -m pytest -vv --cov=app-keras/lib tests/**.py
 
-lint:
-	export PYTHONPATH="./app" && \
-	pylint --disable=R,C,W0703,W0101,E1101,W0613 app/
+automl-lint:
+	export PYTHONPATH="./app-automl" && \
+	pylint --disable=R,C,W0703,W0101,E1101,W0613 app-automl/
+
+keras-lint:
+	export PYTHONPATH="./app-keras" && \
+	pylint --disable=R,C,W0703,W0101,E1101,W0613,W0611 app-keras/
+
+lint: automl-lint keras-lint
 
 all: install lint test
