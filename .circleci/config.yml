@@ -94,7 +94,7 @@ workflows:
             branches:
               only:
                 - master
-      - build-push-image-docker_app:
+      - build-push-image-docker-app:
           requires:
             - build_test
           filters:
