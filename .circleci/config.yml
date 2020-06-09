@@ -4,9 +4,8 @@
 #
 version: 2.1
 orbs:
-  gcp-gcr: circleci/gcp-gcr@0.6.1
-  gcr: circleci/gcp-gcr@0.7.1
   cloud-run: circleci/gcp-cloud-run@1.0.2
+  gcr: circleci/gcp-gcr@0.7.1
 jobs:
   build_test:
     docker:
@@ -90,10 +89,8 @@ jobs:
             . venv/bin/activate
             sleep 2m
             locust --host=https://covid-3ghvym5f7q-uc.a.run.app --locustfile locustfile.py --no-web -c 5 -r 1 -t 1m  --print-stats
-orbs:
-  cloudrun: circleci/gcp-cloud-run@1.0.2
 workflows:
-  version: 2.1
+  version: 2.0
   test_build_deploy:
     jobs:
       - build_test:
