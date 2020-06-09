@@ -77,7 +77,7 @@ jobs:
       - gcr/gcr-auth
       - gcr/build-image:
           image: covid-app
-          path: ~/computer-vision-covid-19
+          path: ~/computer-vision-covid-19/app
           tag: "v.1.1" # Change version number when updating 
       - gcr/push-image:
           image: covid-app
