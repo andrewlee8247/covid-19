@@ -94,7 +94,7 @@ workflows:
             branches:
               only:
                 - master
-      - build_push_image_docker_app:
+      - build-push-image-docker_app:
           requires:
             - build_test
           filters:
@@ -103,7 +103,7 @@ workflows:
                 - development
       - build_and_deploy:
           requires:
-            - build_push_image_docker_app
+            - build-push-image-docker-app
           filters:
             branches:
               only:
