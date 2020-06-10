@@ -62,4 +62,4 @@ The model's accuracy is .86, with a precision score of .86 and recall score of .
 
 # Authors
 
-Authors of this project include Andrew Lee, Allison Ashley, and Michael Martley.
+Authors of this project include Andrew Lee, Jay Soto, Allison Ashley, and Michael Martley.
