@@ -8,7 +8,7 @@ from PIL import Image
 import logging
 
 cloud_logger = logging.getLogger("cloudLogger")
-cloud_logger.setLevel(logging.INFO)
+cloud_logger.setLevel(logging.DEBUG)
 
 
 def make_prediction(file_dir, filename):
@@ -17,7 +17,9 @@ def make_prediction(file_dir, filename):
     payload = pd.DataFrame([filename], columns=["filename"],)
     try:
         # Image preprocessing
-        predict_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        predict_datagen = ImageDataGenerator(
+            preprocessing_function=preprocess_input, rescale=1.0 / 255
+        )
 
         data_generator = predict_datagen.flow_from_dataframe(
             dataframe=payload,
@@ -38,18 +40,21 @@ def make_prediction(file_dir, filename):
         # Get classification and score
         classification = np.argmax(predict, axis=1)
         if classification == 0:
-            predicted_class = "normal"
+            predicted_class = "COVID-19"
             predicted_class_score = round(predict[0][0], 5)
         elif classification == 1:
-            predicted_class = "COVID-19"
+            predicted_class = "pneumonia"
             predicted_class_score = round(predict[0][1], 5)
+        else:
+            predicted_class = "normal"
+            predicted_class_score = round(predict[0][2], 5)
 
         # Return prediction results
         prediction = {
             "predicted_class": predicted_class,
             "score": str(predicted_class_score),
         }
-        cloud_logger.info(
+        logging.info(
             "results: %s",
             {"predicted_class": predicted_class, "score": predicted_class_score},
         )

@@ -14,7 +14,7 @@ from lib import upload, insert, prediction, secrets
 log_client = cloudlogging.Client()
 log_handler = log_client.get_default_handler()
 cloud_logger = logging.getLogger("cloudLogger")
-cloud_logger.setLevel(logging.INFO)
+cloud_logger.setLevel(logging.DEBUG)
 cloud_logger.addHandler(log_handler)
 
 UPLOAD_FOLDER = "/tmp"

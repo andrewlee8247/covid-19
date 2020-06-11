@@ -14,7 +14,7 @@ from lib import upload, insert, prediction, secrets
 log_client = cloudlogging.Client()
 log_handler = log_client.get_default_handler()
 cloud_logger = logging.getLogger("cloudLogger")
-cloud_logger.setLevel(logging.INFO)
+cloud_logger.setLevel(logging.DEBUG)
 cloud_logger.addHandler(log_handler)
 
 UPLOAD_FOLDER = "/tmp"
@@ -109,13 +109,13 @@ def form():
                 flash(
                     "Prediction is {} with a probability of {}%".format(
                         response["predicted_class"],
-                        round(float(response["score"]) * 100, 3)
+                        round(float(response["score"]) * 100, 3),
                     )
                 )
             return redirect("/#form")
         except Exception as e:
             cloud_logger.error(e)
-            if str(e).split(' ')[0] == "Expecting":
+            if str(e).split(" ")[0] == "Expecting":
                 flash("Processing error. Please try again.")
             else:
                 flash(str(e))
@@ -199,4 +199,4 @@ def prediction_payload(access):
 if __name__ == "__main__":
     from waitress import serve
 
-    serve(app, host="0.0.0.0", port="80")
+    serve(app, host="0.0.0.0", port="8080")

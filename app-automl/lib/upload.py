@@ -3,7 +3,7 @@ from google.cloud import storage
 from google.cloud.storage import Blob
 
 cloud_logger = logging.getLogger("cloudLogger")
-cloud_logger.setLevel(logging.INFO)
+cloud_logger.setLevel(logging.DEBUG)
 
 
 def upload_image(file_path, filename, bucket_name):

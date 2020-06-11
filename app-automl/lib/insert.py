@@ -3,7 +3,7 @@ from datetime import datetime
 from google.cloud import bigquery
 
 cloud_logger = logging.getLogger("cloudLogger")
-cloud_logger.setLevel(logging.INFO)
+cloud_logger.setLevel(logging.DEBUG)
 
 
 def insert_data(
