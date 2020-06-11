@@ -61,7 +61,7 @@ The model's average precision is .884, with a precision score of .86 and recall 
  - (File) requirements.txt: modules to be installed to support the application's functionality
 
 # System Architecture
-![System Architecture](https://i.ibb.co/2tMPySg/Computer-Vision-Architecture-COVID-19-2.png)
+![System Architecture](https://i.ibb.co/VH86Sbg/Computer-Vision-Architecture-COVID-19-2.png)
  1. X-Ray images are uploaded to Cloud Storage that are used to train the classifier
  2. Updates to application are containerized and images are pushed to Google's Container Registry using CI/CD
  3. Container is deployed to Cloud Run automatically
