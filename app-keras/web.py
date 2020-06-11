@@ -106,12 +106,15 @@ def form():
                 raise Exception((response["error"]))
             else:
                 cloud_logger.info(response)
-                flash(
-                    "Prediction is {} with a probability of {}%".format(
-                        response["predicted_class"],
-                        round(float(response["score"]) * 100, 3),
+                if response["predicted_class"] == "uncertain":
+                    flash("Prediction is uncertain.")
+                else:
+                    flash(
+                        "Prediction is {} with a probability of {}%.".format(
+                            response["predicted_class"],
+                            round(float(response["score"]) * 100, 3),
+                        )
                     )
-                )
             return redirect("/#form")
         except Exception as e:
             cloud_logger.error(e)

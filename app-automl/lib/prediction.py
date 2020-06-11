@@ -29,7 +29,7 @@ def make_prediction(file_path):
         # params is additional domain-specific parameters.
         # score_threshold is used to filter the result
         # https://cloud.google.com/automl/docs/reference/rpc/google.cloud.automl.v1#predictrequest
-        params = {"score_threshold": "0.8"}
+        params = {"score_threshold": "0.70"}
 
         # Run prediction
         response = prediction_client.predict(model_full_id, payload, params)
@@ -46,10 +46,13 @@ def make_prediction(file_path):
         }
         cloud_logger.info(
             "results: %s",
-            {"predicted_class": predicted_class, "score": predicted_class_score}
+            {"predicted_class": predicted_class, "score": predicted_class_score},
         )
         return prediction
 
-    except Exception:
-        raise Exception("Processing error. Please try again.")
+    except Exception as e:
+        if str(e) == "local variable 'predicted_class' referenced before assignment":
+            return {"predicted_class": "uncertain"}
+        else:
+            raise Exception("Processing error. Please try again.")
         return

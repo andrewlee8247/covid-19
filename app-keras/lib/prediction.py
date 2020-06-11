@@ -50,10 +50,14 @@ def make_prediction(file_dir, filename):
             predicted_class_score = round(predict[0][2], 5)
 
         # Return prediction results
-        prediction = {
-            "predicted_class": predicted_class,
-            "score": str(predicted_class_score),
-        }
+        # Score threshold
+        if predicted_class_score < 0.6:
+            prediction = {"predicted_class": "uncertain"}
+        else:
+            prediction = {
+                "predicted_class": predicted_class,
+                "score": str(predicted_class_score),
+            }
         logging.info(
             "results: %s",
             {"predicted_class": predicted_class, "score": predicted_class_score},
