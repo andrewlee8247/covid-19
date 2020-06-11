@@ -65,7 +65,7 @@ The model's average precision is .884, with a precision score of .86 and recall 
  1. X-Ray images are uploaded to Cloud Storage that are used to train the classifier
  2. Updates to application are containerized and images are pushed to Google's Container Registry using CI/CD
  3. Container is deployed to Cloud Run automatically
- 4. Prediction requests are sent to AutomML, images are stored in Cloud Storage, and data is user data is inserted into BigQuery
+ 4. Prediction requests are sent to AutoML, images are stored in Cloud Storage, and data is user data is inserted into BigQuery
  5. Users/Clients can access the front-end through a public URL. API requests require and access token.
 
 # Authors
