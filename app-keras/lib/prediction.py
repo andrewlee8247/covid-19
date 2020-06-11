@@ -58,9 +58,9 @@ def make_prediction(file_dir, filename):
                 "predicted_class": predicted_class,
                 "score": str(predicted_class_score),
             }
-        logging.info(
+        cloud_logger.info(
             "results: %s",
-            {"predicted_class": predicted_class, "score": predicted_class_score},
+            {"predicted_class": predicted_class, "score": predicted_class_score}
         )
         return prediction
 

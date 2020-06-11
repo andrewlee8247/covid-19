@@ -88,7 +88,7 @@ def form():
             data = request.form
             file = request.files["payload"]
             if file.filename == "":
-                raise Exception("Please submit a file.")
+                raise Exception("Please submit a file")
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
@@ -107,10 +107,10 @@ def form():
             else:
                 cloud_logger.info(response)
                 if response["predicted_class"] == "uncertain":
-                    flash("Prediction is uncertain.")
+                    flash("Prediction is uncertain")
                 else:
                     flash(
-                        "Prediction is {} with a probability of {}%.".format(
+                        "Prediction is {} with a probability of {}%".format(
                             response["predicted_class"],
                             round(float(response["score"]) * 100, 3),
                         )
