@@ -46,7 +46,7 @@ Images are stored in Cloud Storage (both the training/test data and the user inp
 
 # The Model's Performance
 
-The model's accuracy is .86, with a precision score of .86 and recall score of .85. 
+The model's average precision is .884, with a precision score of .86 and recall score of .85. 
 1164 images were used for training and 129 images were used for testing. 
 
 # Folders/Files
@@ -59,6 +59,9 @@ The model's accuracy is .86, with a precision score of .86 and recall score of .
  - (File) conftest.py: 
  - (File) locustfile.py:
  - (File) requirements.txt: modules to be installed to support the application's functionality
+
+# System Architecture
+![System Architecture](https://drive.google.com/file/d/1iHhv2M-IO2vEymveT-B8LgT8PTXWV0fa/view?usp=sharing)
 
 # Authors
 
