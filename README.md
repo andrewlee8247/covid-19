@@ -56,6 +56,12 @@ The Cloud Vision model's accuracy is .884, with a precision score of .86 and rec
 The custom model's accuracy is .71, with a precision score of .75 and recall score of .74. 
 1164 images were used for training and 129 images were used for testing on both models. 
 
+## AutoML
+![Evaluation-AutoML](https://i.ibb.co/sFqsgxf/AutoML.png)
+
+## Keras (CNN)
+![Evaluation-Keras](https://i.ibb.co/55YCLtH/keras-eval.png)
+
 # Folders/Files
 
  - (Folder) .circleci: implements integration of CircleCI for continuous integration and continuous deployment
