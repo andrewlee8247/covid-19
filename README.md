@@ -60,7 +60,7 @@ The custom model's accuracy is .71, with a precision score of .75 and recall sco
 ![Evaluation-AutoML](https://i.ibb.co/sFqsgxf/AutoML.png)
 
 ## Keras (CNN)
-![Evaluation-Keras](https://i.ibb.co/55YCLtH/keras-eval.png)
+![Evaluation-Keras](https://i.ibb.co/mXBWP35/keras-eval.png)
 
 # Folders/Files
 
