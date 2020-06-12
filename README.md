@@ -53,10 +53,8 @@ custom model (https://covid-keras-3ghvym5f7q-uc.a.run.app/#form).
 # The Model's Performance
 
 The Cloud Vision model's accuracy is .86, with a precision score of .86 and recall score of .85. 
-1164 images were used for training and 129 images were used for testing. 
-
-The custom model's accuracy is .74, with a precision score of .75 and recall score of .74. 
-1164 images were used for training and 129 images were used for testing. 
+The custom model's accuracy is .71, with a precision score of .75 and recall score of .74. 
+1164 images were used for training and 129 images were used for testing on both models. 
 
 # Folders/Files
 
