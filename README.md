@@ -1,4 +1,5 @@
-## X-Ray Image COVID-19 Image Classifier
+## 
+Image COVID-19 Image Classifier
 
 [![CircleCI](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development.svg?style=svg)](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development)
 
@@ -31,15 +32,15 @@ Image breakdown:
 # How it Works
 
 The application utilizes Python as the primary language for system functionality. On the front-end, Python Flask
-and HTML support the user interface. Continuous integration and continuous delivery are in place utilizing CircleCI. The 
-code can be edited within Github and automatically updated within Cloud Repositories and directly to the live application via Cloud Run. 
+and Bootstrap support the user interface. Continuous integration and continuous delivery are in place utilizing CircleCI. The 
+code can be edited within GitHub and automatically updated within Cloud Repositories and directly to the live application via Cloud Run. 
 
 The application utilizes two methods for determining the probability of an 
-X-ray image being positive for COVID-19 - a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
+x-ray image being positive for COVID-19 - a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
 The Cloud Vision tool is an automated machine learning tool that is fed images and with marginal effort trains and tests a model. 
 The custom model was developed by the authors of the application where a convolutional neural network (CNN) has been trained and tested
 on the same data used for the Cloud Vision tool.
-The interface allows users to upload an X-ray image to the application. The application analyzes the image, 
+The interface allows users to upload an x-ray image to the application. The application analyzes the image, 
 and will predict if the patient has COVID, Pneumonia or is healthy.
 
 Form data received from users is saved into BigQuery, where the data is collected and stored. Classification
