@@ -2,14 +2,14 @@
 
 [![CircleCI](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development.svg?style=svg)](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development)
 
-# Description
+## Description
 
 The COVID-19 X-ray Image Classifier is an application that utilizes machine learning 
 on Google Cloud Platform (GCP) to predict the probability of a patient being positive for COVID-19. 
 
 YouTube demo found here: https://www.youtube.com/watch?v=JUwgop3BzEc
 
-# Background
+## Background
 
 Beginning in 2019, the COVID-19 virus caused significant damage throughout the 
 world. In haste to address the ongoing damage, scientific and medical experts have sought (and continue to seek out)
@@ -19,7 +19,7 @@ Computer vision technology can be leveraged to assist medical professionals in
 determining whether a patient is positive for COVID-19, utilizing x-ray images or CT scans. Currently, such technologies 
 are used in determining other health conditions such as cancer.
 
-# About the Data
+## About the Data
 
 Over 1290 images were collected from multiple open-source resources. The images include
 x-ray images of COVID-19, pneumonia, and normal (no conditions) cases. For an application
@@ -30,7 +30,7 @@ Image breakdown:
  - Pneumonia – 500
  - COVID-19 - 293
 
-# How it Works
+## How it Works
 
 The application utilizes Python as the primary language for system functionality. On the front-end, Python Flask
 and Bootstrap support the user interface. Continuous integration and continuous delivery are in place utilizing CircleCI. The 
@@ -52,19 +52,19 @@ Images are stored in Cloud Storage (both the training/test data and the user inp
 Two separate URLs are utilized - one for the Cloud Vison model (https://covid-3ghvym5f7q-uc.a.run.app) and one for the 
 custom model (https://covid-keras-3ghvym5f7q-uc.a.run.app).
 
-# The Model's Performance
+## The Model's Performance
 
 The Cloud Vision model's accuracy is .884, with a precision score of .86 and recall score of .85. 
 The custom model's accuracy is .71, with a precision score of .75 and recall score of .74. 
 1164 images were used for training and 129 images were used for testing on both models. 
 
-## AutoML
+### AutoML
 ![Evaluation-AutoML](https://i.ibb.co/sFqsgxf/AutoML.png)
 
-## Keras (CNN)
+### Keras (CNN)
 ![Evaluation-Keras](https://i.ibb.co/mXBWP35/keras-eval.png)
 
-# Folders/Files
+## Folders/Files
 
  - (Folder) .circleci: implements integration of CircleCI for continuous integration and continuous deployment
  - (Folder) app-automl: implements the GCP AutoML (Vision) application
@@ -76,9 +76,9 @@ The custom model's accuracy is .71, with a precision score of .75 and recall sco
  - (File) locustfile.py: load testing configuration
  - (File) requirements.txt: modules to be installed to support the application's functionality
 
-# System Architecture
+## System Architecture
 
-## AutoML
+### AutoML
 ![System Architecture-AutoML](https://i.ibb.co/VH86Sbg/Computer-Vision-Architecture-COVID-19-2.png)
  1. X-ray images are uploaded to Cloud Storage that are used to train the classifier.
  2. Updates to application are containerized and images are pushed to Google's Container Registry using CI/CD pipeline.
@@ -86,13 +86,13 @@ The custom model's accuracy is .71, with a precision score of .75 and recall sco
  4. Prediction requests are sent to AutoML, images are stored in Cloud Storage, and user data is inserted into BigQuery. Flask API returns a JSON response.
  5. Users/Clients can access the front-end via public URL. API requests require JSON web token.
  
- ## Keras
+ ### Keras
 ![System Architecture-Keras](https://i.ibb.co/6RGKP91/Computer-Vision-Architecture-COVID-19-Keras.png)
  - The system architecture that is built around the Keras model is essentially the same. The only difference is that a prediction that is made does not use an API to an external service. 
  - Currently, a prediction that is made on an image payload is based on a saved model that is loaded every time a request is made.
  - It is important to note that the model requires a lot of processing power, which cannot be supported by Cloud Run.
  - A future implementation can deploy the application to a GPU enabled virtual machine running a Tensorflow server or Kubernetes cluster.
  
-# Authors
+## Authors
 
 Authors of this project include Andrew Lee, Jay Soto, Allison Ashley, and Michael Martley.
