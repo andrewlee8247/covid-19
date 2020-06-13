@@ -1,5 +1,4 @@
-## 
-Image COVID-19 Image Classifier
+## X-ray Image COVID-19 Image Classifier
 
 [![CircleCI](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development.svg?style=svg)](https://circleci.com/gh/andrewlee8247/computer-vision-covid-19/tree/development)
 
