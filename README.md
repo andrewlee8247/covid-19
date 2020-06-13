@@ -7,7 +7,7 @@
 The COVID-19 X-ray Image Classifier is an application that utilizes machine learning 
 on Google Cloud Platform (GCP) to predict the probability of a patient being positive for COVID-19. 
 
-Youtube demo found here: https://www.youtube.com/watch?v=JUwgop3BzEc
+YouTube demo found here: https://www.youtube.com/watch?v=JUwgop3BzEc
 
 # Background
 
