@@ -4,17 +4,17 @@
 
 # Description
 
-The COVID-19 Image Classifier is an application that utilizes machine learning 
+The COVID-19 x-ray image classifier is an application that utilizes machine learning 
 on Google Cloud Platform (GCP) to predict the probability of a patient being positive for Covid-19. 
 
 # Background
 
-Beginning in 2019, the Covid-19 virus caused significant damage throughout the 
+Beginning in 2019, the COVID-19 virus caused significant damage throughout the 
 world. In haste to address the ongoing damage, scientific and medical experts have sought (and continue to seek out)
 out new methods and technologies for treating, testing, and identifying the virus in humans. 
 
 Computer vision technology can be leveraged to assist medical professionals in 
-determining whether a patient is positive for Covid-19, utilizing x-ray images or CT scans. Currently, such technologies 
+determining whether a patient is positive for COVID-19, utilizing x-ray images or CT scans. Currently, such technologies 
 are used in determining other health conditions such as cancer.
 
 # About the Data
@@ -40,7 +40,7 @@ The Cloud Vision tool is an automated machine learning tool that is fed images a
 The custom model was developed by the authors of the application where a convolutional neural network (CNN) has been trained and tested
 on the same data used for the Cloud Vision tool.
 The interface allows users to upload an x-ray image to the application. The application analyzes the image, 
-and will predict if the patient has COVID, Pneumonia or is healthy.
+and will predict if the patient has COVID-19, pneumonia or is normal.
 
 Form data received from users is saved into BigQuery, where the data is collected and stored. Classification
 scores (probability) are returned as a JSON response. The timestamp of requests, file names, and storage location (image uploaded) is also stored.
