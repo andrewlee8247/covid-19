@@ -33,8 +33,8 @@ Image breakdown:
 ## How it Works
 
 The application utilizes Python as the primary language for system functionality. On the front-end, Python Flask
-and Bootstrap support the user interface. Continuous integration and continuous delivery are in place utilizing CircleCI. The 
-code can be edited within GitHub and automatically updated within Cloud Repositories and directly to the live application via Cloud Run. 
+and Bootstrap support the user interface. Continuous integration and continuous deployment are in place utilizing CircleCI. The 
+code can be edited within GitHub and the CI/CD workflow will automatically update the live application running on Cloud Run directly. 
 
 The application utilizes two methods for determining the probability of an 
 x-ray image being positive for COVID-19 - a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
