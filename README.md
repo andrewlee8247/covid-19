@@ -34,7 +34,7 @@ Image breakdown:
 
 The project consisted of deploying two applications. Both applications utilize Python as the primary language for system functionality. On the front-end, Python Flask
 and Bootstrap support the user interfaces. Continuous integration and continuous deployment are in place utilizing CircleCI. The 
-code can be edited locally and pushed to GitHub where the CI/CD workflow will automatically test, build and push the application container image to Google's Container Registry (GCR), and deploy the container to Cloud Run. 
+code can be edited locally and pushed to GitHub where the CI/CD workflow will automatically test, build and push the application container image to Google's Container Registry (GCR), and deploy the container to Cloud Run. A load test is run afterwards to ensure application functionality.
 
 The applications utilize two different methods for determining the probability of an 
 x-ray image being positive for COVID-19: a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
