@@ -32,16 +32,16 @@ Image breakdown:
 
 ## How it Works
 
-The application utilizes Python as the primary language for system functionality. On the front-end, Python Flask
-and Bootstrap support the user interface. Continuous integration and continuous deployment are in place utilizing CircleCI. The 
-code can be edited within GitHub and the CI/CD workflow will automatically update the live application running on Cloud Run directly. 
+The project consisted of deploying two applications. Both applications utilize Python as the primary language for system functionality. On the front-end, Python Flask
+and Bootstrap support the user interfaces. Continuous integration and continuous deployment are in place utilizing CircleCI. The 
+code can be edited locally and pushed to GitHub where the CI/CD workflow will automatically update the live application running on Cloud Run directly. 
 
-The application utilizes two methods for determining the probability of an 
-x-ray image being positive for COVID-19 - a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
+The applications utilize two different methods for determining the probability of an 
+x-ray image being positive for COVID-19: a GCP AutoML Cloud Vision tool and a custom model built using Python and Keras. 
 The Cloud Vision tool is an automated machine learning tool that is fed images and with marginal effort trains and tests a model. 
 The custom model was developed by the authors of the application where a convolutional neural network (CNN) has been trained and tested
 on the same data used for the Cloud Vision tool.
-The interface allows users to upload an x-ray image to the application. The application analyzes the image, 
+The interfaces allow users to upload an x-ray image to the application. The application analyzes the image, 
 and will predict if the patient has COVID-19, pneumonia or is normal.
 
 Form data received from users is saved into BigQuery, where the data is collected and stored. Classification
