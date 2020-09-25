@@ -6,7 +6,7 @@ google-cloud-storage
 google-cloud-bigquery
 google-cloud-automl
 google-cloud-logging
-tensorflow==2.0.1
+tensorflow==2.2.1
 keras
 Pillow
 pyjwt
