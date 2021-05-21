@@ -15,7 +15,7 @@ google-cloud-bigquery
 google-cloud-logging
 google-cloud-automl
 grpcio
-tensorflow==2.2.0
+tensorflow==2.5.0
 keras
 Pillow
 flasgger
